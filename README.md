@@ -14,3 +14,13 @@ Must have Clojure v1.11.1 and a setted REPL (Read-Eval-Print Loop) environment. 
 - [@BenjaminCruz-A01747811](https://github.com/BenjaminCruz-A01747811)
 
 ### Local Download
+You can clone this repo in your local by typing the following commands
+```shell
+$ git clone https://www.github.com/Its-Yayo/LexJson.git
+$ cd LexJson
+```
+
+If you wanna update all changes in your local, you must type the following command
+```shell
+$ git pull
+```
