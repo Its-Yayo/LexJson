@@ -15,7 +15,7 @@
 (ns lexjson
   (:import (instaparse.gll Failure))
   (:require [clojure.string :as str]
-            [instaparse.core :refer [parser]]
+            [intra.parse :as ip]
             [clojure.test :refer [deftest is run-tests]]))
 
 (defn fails? [r] (instance? Failure r))
@@ -45,6 +45,22 @@
   (map (fn [[t v]]
          (format "<tr><td><span class=\"%s\">%s<span></td><td>%s</td></tr>" (colores v) v (termino t)))
        lst))
+
+(def json-grammar
+  (ip/grammar
+    {:ws ()
+     :string
+     :number
+     :true
+     :false
+     :null
+     :object
+     :punctuation}))
+
+
+
+
+
 
 (defn json-html [in-json out-html]
   "Converts a JSON file into a HTML file"
