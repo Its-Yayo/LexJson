@@ -1,6 +1,6 @@
 ;--------------------------------------------------------------------------------------------------------
 ; LexJson is a Clojure project for parsing JSON
-; into a sequence of tokens.
+; into a sequence of tokens, outputting a single HTML format file
 ;
 ; Source Github repository: https://www.github.com/Its-Yayo/lexjson
 ; Date: 06 - 14 - 2023
