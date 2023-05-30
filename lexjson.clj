@@ -40,12 +40,14 @@
   </body>
   </html>")
 
-(defn htmlize [lst]
-  (map (fn [[f n]])))
+(defn htmlize
+  [lst]
+  (map (fn [[t v]]
+         (format "<tr><td><span class=\"%s\">%s<span></td><td>%s</td></tr>" (colores v) v (termino t)))
+       lst))
 
 (defn json-html [in-json out-html]
   (spit out-html
         (format html-template)))
 
-;Prueba?
 
