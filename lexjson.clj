@@ -40,13 +40,14 @@
   </body>
   </html>")
 
-(defn htmlize
-  [lst]
+(defn htmlize [lst]
+  "Converts a list of tokens into a HTML table"
   (map (fn [[t v]]
          (format "<tr><td><span class=\"%s\">%s<span></td><td>%s</td></tr>" (colores v) v (termino t)))
        lst))
 
 (defn json-html [in-json out-html]
+  "Converts a JSON file into a HTML file"
   (spit out-html
         (format html-template)))
 
