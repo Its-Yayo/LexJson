@@ -21,5 +21,4 @@
 (defn fails? [r] (instance? Failure r))
 (defn succeeds? [r] (not (fails? r)))
 
-
-
+(defn json-html [json])
