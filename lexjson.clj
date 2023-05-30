@@ -21,4 +21,30 @@
 (defn fails? [r] (instance? Failure r))
 (defn succeeds? [r] (not (fails? r)))
 
-(defn json-html [json])
+(def html-template "
+  <!DOCTYPE html>
+  <html lang=\"es\">
+  <head>
+    <meta charset=\"UTF-8\">
+    <title>LexJson</title>
+    <style>
+      body {
+        background-color: #DAF7DC;
+        color: #fff;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+     <h1>LexJson</h1>
+  </body>
+  </html>")
+
+(defn htmlize [lst]
+  (map (fn [[f n]])))
+
+(defn json-html [in-json out-html]
+  (spit out-html
+        (format html-template)))
+
+
