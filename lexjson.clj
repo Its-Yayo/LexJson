@@ -14,7 +14,7 @@
 (ns lexjson
   (:import (instaparse.gll Failure))
   (:require [clojure.string :as str]
-            :require [instaparse.core :refer [parser]]))
+            [instaparse.core :refer [parser]]))
 
 (defn fails? [r] (instance? Failure r))
 (defn succeeds? [r] (not (fails? r)))
