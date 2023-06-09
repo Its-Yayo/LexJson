@@ -21,18 +21,22 @@
 
 ;; Issue to check #1
 (def json-grammar #"(?xi)
-    (\s+)  # Ws
-  | ([^\\]*(?:\\.[^\\]*)*)  # String
-  | (\-?(?:0|[1-9]\\d*)(?:\\.\\d+)?(?:[eE][+-]?\\d+)?\)  # Number
-  | ((?i)true)  # True
-  | ((?i)false)  # False
-  | ((?i)null)  # Null
-  | ((?x)\\{)  # Opening Key
-  | ((?x)\\})  # Closing Key
-  | ((?x)\\[)  # Opening Value
-  | ((?x)\\])  # Closing Value
-  | (:)  # Colon
-  | (,)  # Comma")
+    ("^ \w+ "$)  # Group 1 : String
+  | ([0-9]+)  # Group 2 : Number
+  | (true)  # Group 3 : True
+  | (false)  # Group 4 : False
+  | (null)  # Group 5 : Null
+  | ({)  # Group 6 : Opening Key
+  | (})  # Group 7 : Closing Key
+  | ([)  # Group 8 : Opening Value
+  | (])  # Group 9 : Closing Value
+  | (:)  # Group 10 : Colon
+  | (,)  # Group 11 : Comma
+  | (\s+)  # Group 12 : Whitespace
+  | (.)  # Group 13 : Error Character
+ ")
+
+(re-matches json-grammar "true")
 
 (defn tokenize [s]
   "Tokenizes a string into a list of tokens")
