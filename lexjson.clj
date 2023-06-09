@@ -38,9 +38,8 @@
 
  ")
 
-(defn tokenize
+(defn tokenize [input]
   "Tokenizes a string into a list of tokens"
-  [input]
   (map (fn [token]
          (cond
            (token 1) [:string (token 0)]
@@ -50,11 +49,17 @@
            (token 5) [:null (token 0)]
            (token 6) [:opening-key (token 0)]
            (token 7) [:closing-key (token 0)]
-           (token 8) []))))
+           (token 8) [:opening-value (token 0)]
+           (token 9) [:closing-value (token 0)]
+           (token 10) [:colon (token 0)]
+           (token 11) [:comma (token 0)]
+           (token 12) [:whitespace (token 0)]
+           (token 13) [:error (token 0)]))
+       (remove (fn [v] (v 12)) (re-seq json-grammar input))))
 
-
-;(defn tokenize-file [file]
-;  "Tokenizes a file into a list of tokens")
+(defn tokenize-file [file]
+ "Tokenizes a file into a list of tokens"
+  (tokenize (slurp file)))
 ;
 ;(def html-template "
 ;  <!DOCTYPE html>
