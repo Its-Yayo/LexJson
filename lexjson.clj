@@ -11,17 +11,17 @@
 ; Code under free licence.
 ;--------------------------------------------------------------------------------------------------------
 
-(ns lexjson
-  (:import (instaparse.gll Failure))
-  (:require [clojure.string :as str]
-            [instaparse.core :refer [parser]]))
+(ns lexjson)
+  ;(:import (instaparse.gll Failure))
+  ;(:require [clojure.string :as str]
+  ;          [instaparse.core :refer [parser]]))
 
 ;(defn fails? [r] (instance? Failure r))
 ;(defn succeeds? [r] (not (fails? r)))
 
 ;; Issue to check #1
 (def json-grammar #"(?xi)
-    (\w+)            # Group 1 : String
+    (\" \w+ \")            # Group 1 : String
   | ( [0-9]+ )       # Group 2 : Number
   | ( true )         # Group 3 : True
   | ( false )        # Group 4 : False
@@ -60,7 +60,9 @@
 (defn tokenize-file [file]
  "Tokenizes a file into a list of tokens"
   (tokenize (slurp file)))
-;
+
+(tokenize-file "resaltador.json")
+
 ;(def html-template "
 ;  <!DOCTYPE html>
 ;  <html lang=\"es\">
