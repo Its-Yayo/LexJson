@@ -12,16 +12,9 @@
 ;--------------------------------------------------------------------------------------------------------
 
 (ns lexjson)
-  ;(:import (instaparse.gll Failure))
-  ;(:require [clojure.string :as str]
-  ;          [instaparse.core :refer [parser]]))
 
-;(defn fails? [r] (instance? Failure r))
-;(defn succeeds? [r] (not (fails? r)))
-
-;; Issue to check #1
 (def json-grammar #"(?xi)
-    (\"(.+?)\")            # Group 1 : String
+    (\" .*? \")      # Group 1 : String
   | ( [0-9]+ )       # Group 2 : Number
   | ( true )         # Group 3 : True
   | ( false )        # Group 4 : False
@@ -34,8 +27,6 @@
   | ( , )            # Group 11 : Comma
   | ( \s+ )          # Group 12 : Whitespace
   | ( . )            # Group 13 : Error Character
-
-
  ")
 
 (defn tokenize [input]
@@ -57,36 +48,97 @@
            (token 13) [:error (token 0)]))
        (re-seq json-grammar input)))
 
+
 (defn tokenize-file [file]
  "Tokenizes a file into a list of tokens"
   (tokenize (slurp file)))
 
-(tokenize-file "resaltador.json")
+(def html-template "
+  <!DOCTYPE html>
+  <html lang=\"es\">
+  <head>
+    <meta charset=\"UTF-8\">
+    <title>LexJson</title>
+    <style>
+      body {
+        background-color: black;
+        color: #DAF7DC;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      h1 {
+        text-align: center;
+        color: white;
+      }
+      .string {
+        color: #ad64ae;
+      }
+      .number {
+        color: #5f36c1;
+      }
+      .true {
+        color: #EADEC6;
+      }
+      .false {
+        color: #EADEC6;
+      }
+      .null {
+        color: #EADEC6;
+      }
+      .opening-key {
+        color: #E63f6;
+      }
+      .closing-key {
+        color: #E63f6;
+      }
+      .opening-value {
+        color: #E63f6;
+      }
+      .closing-value {
+        color: #E63f6;
+      }
+      .colon {
+        color: #E63f6;
+      }
+      .comma {
+        color: #E63f6;
+      }
+      .whitespace {
+        color: #f5a742;
+      }
+      .error {
+        color: #D72F26;
+      }
+    </style>
+  </head>
+  <body>
+     <h1>LexJson</h1>
+      %s
+  </body>
+  </html>")
 
-;(def html-template "
-;  <!DOCTYPE html>
-;  <html lang=\"es\">
-;  <head>
-;    <meta charset=\"UTF-8\">
-;    <title>LexJson</title>
-;    <style>
-;      body {
-;        background-color: #DAF7DC;
-;        color: #fff;
-;        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-;      }
-;    </style>
-;  </head>
-;  <body>
-;     <h1>LexJson</h1>
-;  </body>
-;  </html>")
-;
-;(defn htmlize [lst]
-;  "Converts a list of tokens into a HTML file")
-;
-;(defn json->html [in-json out-html]
-;  "Converts a JSON file into a HTML file")
-;
-;
-;
+
+(defn htmlize [lst]
+  "Converts a list of tokens into a HTML file"
+  [lst]
+  (map (fn [[t v]]
+         (if
+           (not= t :whitespace)
+           ;(format "%s" v)
+           (format "<tr><td><span class=\"%s\">%s</span></td></tr>"
+                          (symbol t)
+                          v)))
+
+       lst))
+
+
+
+(defn json->html [in-json out-html]
+  "Converts a JSON file into a HTML file"
+  (spit out-html
+        (format html-template
+                (clojure.string/join (htmlize (tokenize-file in-json))))))
+
+(json->html "resaltador.json" "resaltador.html")
+
+
+
