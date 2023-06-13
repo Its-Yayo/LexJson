@@ -53,6 +53,8 @@
  "Tokenizes a file into a list of tokens"
   (tokenize (slurp file)))
 
+(tokenize-file "resaltador.json")
+
 (def html-template "
   <!DOCTYPE html>
   <html lang=\"es\">
@@ -117,17 +119,16 @@
   </html>")
 
 
-(defn htmlize [lst]
+(defn htmlize
   "Converts a list of tokens into a HTML file"
   [lst]
   (map (fn [[t v]]
-         (if
-           (not= t :whitespace)
-           ;(format "%s" v)
-           (format "<tr><td><span class=\"%s\">%s</span></td></tr>"
-                          (symbol t)
-                          v)))
-
+         (cond
+           (= v " ")  (format "<span>%nbsp</span>")
+           (= v "\n") (format "<br>")
+           :else (format "<span class=\"%s\">%s</span>"
+                         (symbol t)
+                         v)))
        lst))
 
 
