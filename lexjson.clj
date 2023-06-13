@@ -21,7 +21,7 @@
 
 ;; Issue to check #1
 (def json-grammar #"(?xi)
-    (\" \w+ \")            # Group 1 : String
+    (\"(.+?)\")            # Group 1 : String
   | ( [0-9]+ )       # Group 2 : Number
   | ( true )         # Group 3 : True
   | ( false )        # Group 4 : False
@@ -55,7 +55,7 @@
            (token 11) [:comma (token 0)]
            (token 12) [:whitespace (token 0)]
            (token 13) [:error (token 0)]))
-       (remove (fn [v] (v 12)) (re-seq json-grammar input))))
+       (re-seq json-grammar input)))
 
 (defn tokenize-file [file]
  "Tokenizes a file into a list of tokens"
