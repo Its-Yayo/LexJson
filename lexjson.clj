@@ -49,9 +49,20 @@
        (re-seq json-grammar input)))
 
 
+(defn escape-chars [input]
+  "Escapes special characters"
+  (-> input
+      (clojure.string/replace "<" "&lt;")
+      (clojure.string/replace ">" "&gt;")
+      (clojure.string/replace "&" "&amp;")))
+
 (defn tokenize-file [file]
- "Tokenizes a file into a list of tokens"
-  (tokenize (slurp file)))
+  "Tokenizes a file into a list of tokens"
+  (->> (slurp file)
+       (clojure.string/split-lines)
+       (map escape-chars)
+       (clojure.string/join "\n")
+       (tokenize)))
 
 (def html-template "
   <!DOCTYPE html>
