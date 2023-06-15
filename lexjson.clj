@@ -15,7 +15,7 @@
 
 (def json-grammar #"(?xi)
     (\" .*? \")      # Group 1 : String
-  | ( [0-9]+ )       # Group 2 : Number
+  | ( [0-9]+.?[0-9]+[Ee]?[+-]?[0-9]* )       # Group 2 : Number
   | ( true )         # Group 3 : True
   | ( false )        # Group 4 : False
   | ( null )         # Group 5 : Null
@@ -25,7 +25,7 @@
   | ( \] )           # Group 9 : Closing Value
   | ( : )            # Group 10 : Colon
   | ( , )            # Group 11 : Comma
-  | ( \s+ )          # Group 12 : Whitespace
+  | ( \s )          # Group 12 : Whitespace
   | ( . )            # Group 13 : Error Character
  ")
 
@@ -49,6 +49,7 @@
        (re-seq json-grammar input)))
 
 
+
 (defn escape-chars [input]
   "Escapes special characters"
   (-> input
@@ -64,7 +65,7 @@
        (clojure.string/join "\n")
        (tokenize)))
 
-(tokenize-file "resaltador.json")
+(tokenize-file "mi_ejemplo.json")
 
 (def html-template "
   <!DOCTYPE html>
@@ -98,25 +99,22 @@
         color: #EADEC6;
       }
       .opening-key {
-        color: #E63f6;
+        color: #008f39;
       }
       .closing-key {
-        color: #E63f6;
+        color: #008f39;
       }
       .opening-value {
-        color: #E63f6;
+        color: #008f39;
       }
       .closing-value {
-        color: #E63f6;
+        color: #008f39;
       }
       .colon {
-        color: #E63f6;
+        color: #008f39;
       }
       .comma {
-        color: #E63f6;
-      }
-      .whitespace {
-        color: #f5a742;
+        color:#008f39;
       }
       .error {
         color: #D72F26;
@@ -135,8 +133,9 @@
   [lst]
   (map (fn [[t v]]
          (cond
-           (= v " ")  (format "<span>%nbsp</span>")
-           (= v "\n") (format "<br>")
+           (= t :whitespace) (cond
+                               (= v " ") (format "<span> &nbsp </span>")
+                               :else (format "<br>"))
            :else (format "<span class=\"%s\">%s</span>"
                          (symbol t)
                          v)))
@@ -150,7 +149,7 @@
         (format html-template
                 (clojure.string/join (htmlize (tokenize-file in-json))))))
 
-(json->html "resaltador.json" "resaltador.html")
+(json->html "mi_ejemplo.json" "resaltador.html")
 
 
 
