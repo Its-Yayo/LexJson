@@ -53,9 +53,10 @@
 (defn escape-chars [input]
   "Escapes special characters"
   (-> input
+      (clojure.string/replace "&" "&amp;")
       (clojure.string/replace "<" "&lt;")
-      (clojure.string/replace ">" "&gt;")
-      (clojure.string/replace "&" "&amp;")))
+      (clojure.string/replace ">" "&gt;")))
+
 
 (defn tokenize-file [file]
   "Tokenizes a file into a list of tokens"
