@@ -49,7 +49,6 @@
        (re-seq json-grammar input)))
 
 
-
 (defn escape-chars [input]
   "Escapes special characters"
   (-> input
@@ -124,7 +123,7 @@
   </head>
   <body>
      <h1>LexJson</h1>
-      %s
+     <pre>%s</pre>
   </body>
   </html>")
 
@@ -135,7 +134,7 @@
   (map (fn [[t v]]
          (cond
            (= t :whitespace) (cond
-                               (= v " ") (format "<span> &nbsp </span>")
+                               (= v " ") (format "<span>&nbsp</span>")
                                :else (format "<br>"))
            :else (format "<span class=\"%s\">%s</span>"
                          (symbol t)
