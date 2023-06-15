@@ -14,7 +14,7 @@
 (ns lexjson)
 
 (def json-grammar #"(?xi)
-    (\" .*? \")      # Group 1 : String
+    \"((?:[^\"\\]|\\.)*)\"     # Group 1 : String
   | ( [0-9]+.?[0-9]+[Ee]?[+-]?[0-9]* )       # Group 2 : Number
   | ( true )         # Group 3 : True
   | ( false )        # Group 4 : False
